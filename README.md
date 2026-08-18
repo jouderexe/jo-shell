@@ -4,7 +4,7 @@ A small Bash-like shell.
 
 ## Compilation
 
-only works on Linux.
+Currently only works on Linux.
 
 You need to install GCC and Bash.
 
