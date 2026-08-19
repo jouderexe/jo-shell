@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <signal.h>
+#include <string.h>
 
 //will continue later
 
@@ -15,10 +16,20 @@ int main() {
     char hostname[1024];
     gethostname(hostname, 1024);
 
+    char argument_vector[128];
+    int argument_counter;
+
     while(running) {
         printf("%s@%s -> ", username, hostname);
-        fgets(buff, sizeof(buff), stdin);
-        printf("%s", buff); // just for testing
+
+        if (fgets(buff, sizeof(buff), stdin) == NULL) {
+            printf("\nexit\n");
+            break;
+        }
+
+        buff[strcspn(buff, "\n")] = 0;
+
+        printf("%s\n", buff); // just for testing
     }
 
     return 0;
