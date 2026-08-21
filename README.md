@@ -4,22 +4,26 @@ A small Bash-like shell.
 
 ## Compilation
 
-Currently only works on Linux.
+It only works on Linux.
 
-You need to install GCC and Bash.
+You need to have GCC and Bash installed.
 
-Run the `compile.sh` and wait.
+Run the `compile.sh` script and wait for it to finish.
 
-The executables will be in the 'executable' folder.
+The executables will be in the `executable` folder.
 
 ### Commands
 
-`ls "directory"` : Show the files in the directory.
+These commands are small versions of some GNU coreutils commands.
 
-`echo "text"` : Print the text.
+If you prefer, you can use the GNU coreutils commands instead of my commands.
 
-`pwd` : Print the current directory.
+`ls "directory"` : Shows the files in the directory.
 
-`mkdir "directory"` : Create a directory.
+`echo "text"` : Prints the text.
 
-`rmdir "directory"` : Remove a directory.
+`pwd` : Prints the current directory.
+
+`mkdir "directory"` : Creates a directory.
+
+`rmdir "directory"` : Removes a directory.
