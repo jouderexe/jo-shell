@@ -2,11 +2,11 @@
 #include <unistd.h>
 #include <signal.h>
 #include <string.h>
+#include <sys/wait.h>
 
-//will continue later
+//will do the built in command after
 
 int main() {
-    int running = 1;
     char buff[1024];
 
     char delimiter[] = " \t\n";
@@ -21,7 +21,7 @@ int main() {
     char *argument_vector[128];
     int argument_counter;
 
-    while(running) {
+    while(1) {
         printf("%s@%s -> ", username, hostname);
         fflush(stdout);
 
@@ -45,7 +45,29 @@ int main() {
             argument_counter++;
             token = strtok(NULL, delimiter);
         }
-        argument_vector[argument_counter] = NULL;    
+
+        argument_vector[argument_counter] = NULL;
+
+        if (strcmp(argument_vector[0], "exit") == 0) {
+            break;
+        }
+
+        pid_t pid = fork();
+
+        if (pid == 0) {
+            execvp(argument_vector[0], argument_vector);
+
+            perror("execvp");
+            return 1;
+        }
+
+        else if (pid > 0) {
+            waitpid(pid, NULL, 0);
+        }
+
+        else {
+            perror("fork");
+        }
     }
 
     return 0;
