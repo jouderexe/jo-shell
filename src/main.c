@@ -4,7 +4,7 @@
 #include <string.h>
 #include <sys/wait.h>
 
-//will do the built in command after
+//will do the pipe and redirection after
 
 int main() {
     char buff[1024];
@@ -41,6 +41,12 @@ int main() {
         argument_counter = 0;
 
         while (token != NULL) {
+
+            if (argument_counter >= 127) {
+                printf("error : too much argument");
+                break;
+            }
+
             argument_vector[argument_counter] = token;
             argument_counter++;
             token = strtok(NULL, delimiter);
@@ -52,9 +58,23 @@ int main() {
             break;
         }
 
+        if (strcmp(argument_vector[0], "cd") == 0) {
+
+            if (argument_counter == 1) {
+                printf("cd : no argument\n");
+            }
+
+            else if (chdir(argument_vector[1]) != 0) {
+                perror("chdir");
+            }
+                continue;
+        }
+
         pid_t pid = fork();
 
         if (pid == 0) {
+            signal(SIGINT, SIG_DFL);
+
             execvp(argument_vector[0], argument_vector);
 
             perror("execvp");
